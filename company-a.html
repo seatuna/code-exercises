@@ -1,0 +1,65 @@
+<!-- This exercise involved making API calls and rendering a view using inline
+HTML, JavaScript and inline CSS.
+
+Notes:
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Code for Company A</title>
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+  </head>
+  <body style="background-color:#f5f5f4;">
+    <div style="background-color:#898987; border-radius:5px; color:#fff; font-size:2em; height:3em; margin:1em; position: relative;">
+      <div style="margin:1em 0.5em; position:absolute;">
+        Photo Data from JSON Endpoint
+      </div>
+    </div>
+
+    <!-- Images and data go here -->
+    <div class="content"></div>
+
+    <script>
+      // AJAX GET request
+      $.get({
+        url: 'http://jsonplaceholder.typicode.com/photos',
+        success: function(response) {
+          // Displays the first 50 images, title word counts, title character counts, and titles within image container div
+          for(let i = 0; i < 50; i++) {
+            let id = response[i].id;
+            let title = response[i].title;
+            let characterCount = response[i].title.length;
+            let wordCount = response[i].title.split(" ").length;
+            let img = response[i].thumbnailUrl;
+
+            // Appends a new div to content.
+            // The new div has a class "image-container" + id of the data, ensures corresponding data is appended
+            $(".content").append("<div style='background-color:#fff; margin:0.5em 2em; overflow:auto; padding:1em; clear: both;' class='image-container" + id + "'></div>");
+
+            // Appends image to image-container
+            $(".image-container" + id).append("<div class='image' style='float:left;'><img src=" + img + "></div>");
+
+            // Appends word count
+            $(".image-container" + id).append(
+              "<div style='display:inline; background-color:#1bff1b; border:1px; border-style:solid; border-radius:3px; position:absolute; float:right; margin:0em 2em; padding:2px;'>" +
+                wordCount +
+              "</div>");
+
+            // Appends character count
+            $(".image-container" + id).append(
+              "<div style='display:inline;  background-color:#d5d5d3; border:1px; border-style:solid; border-radius:3px; position:absolute; float:right; margin:0em 5em; padding: 2px;'>" +
+                characterCount +
+              "</div>");
+
+            // Appends title
+            $(".image-container" + id).append(
+              "<div style='display: inline; position: absolute; float: right; margin:0em 10em'>" +
+                title +
+              "</div>");
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
